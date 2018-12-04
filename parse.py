@@ -16,6 +16,10 @@ for net in nlst.nets:
     for node in nodes:
         print("\t%s" % (node,))
 
+#
+# This is just a hard coded output file for the moment. It's picked up from an
+# MPLAB-X Project for the controller.
+#
 output_file = open("/home/john/Private/es/programming/mcp/CinnamonBun/Firmware/CAN_Node.X/src/application/Controller/controller.c","w")
 
 output_file.write('/*\n')
