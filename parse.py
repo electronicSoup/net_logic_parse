@@ -13,6 +13,13 @@ class Component:
 
 components = []
 
+def find_component(ref):
+    for component in components:
+        if component.ref == ref:
+            return component
+
+    return None
+
 nlst = parse_netlist('Test/Test.net')
 
 for component in nlst.components:
