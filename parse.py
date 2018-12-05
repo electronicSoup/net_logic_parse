@@ -14,9 +14,9 @@ class Component:
 components = []
 
 def find_component(ref):
-    for component in components:
+    for index, component in enumerate(components):
         if component.ref == ref:
-            return component
+            return index
 
     return None
 
@@ -30,10 +30,14 @@ for net in nlst.nets:
     nodes = []
     for node in net.nodes:
         nodes.append(node.ref.val)
-#        print("%s" % (node.ref.val,))
     print(net.name.val)
     for ref in nodes:
-        print("\t%s" % (node,))
+        index = find_component(ref)
+        if index is not None:
+            print("Found {}".format(components[index].ref))
+        else:
+            print("NOT FOUND!")
+            
 
 #
 # This is just a hard coded output file for the moment. It's picked up from an
