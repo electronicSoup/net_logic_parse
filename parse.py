@@ -62,11 +62,17 @@ output_file.write('static struct net_node nnodes[NUM_NET_NODES] = {\n')
 
 for component in components:
     output_file.write('\t{\n')
+
+    # define the type of each component in the component list.
     output_file.write('\t\t.type = ')
     if component.node_type == 'bool_input_431':
-        output_file.write('b431_in\n')
+        output_file.write('b431_in,\n')
     if component.node_type == 'bool_output_431':
-        output_file.write('b431_out\n')
+        output_file.write('b431_out,\n')
+
+    # The Address of the component
+    output_file.write('\t\t.address = %s,\n' % (component.address,))
+
     output_file.write('\t},\n')
 output_file.write('};\n')
 
