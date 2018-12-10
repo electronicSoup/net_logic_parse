@@ -45,7 +45,9 @@ for net in nlst.nets:
                 input_node = index
                 input_ref = components[index].ref
         else:
-            print("NOT FOUND!")
+            print("{} NOT FOUND!".format(ref))
+            exit
+            
 
     # Now have the input node so add all other nodes on the net to the Input nodes
     # list of effected outputs.
@@ -71,7 +73,13 @@ for component in components:
         output_file.write('b431_out,\n')
 
     # The Address of the component
-    output_file.write('\t\t.address = %s,\n' % (component.address,))
+    output_file.write('\t\t.address.es_bool.byte = %s,\n' % (component.address,))
+
+    # Effected component list
+    output_file.write('\t\t.number_effected = 0,\n')
+    output_file.write('\t\t.effected = NULL,\n')
+
+    output_file.write('\t\t.logic = NULL,\n')
 
     output_file.write('\t},\n')
 output_file.write('};\n')
