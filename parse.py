@@ -10,7 +10,7 @@ class Component:
         self.node_type = node_type
         self.address = address
         self.effected_nodes = []
-        self.logic = None
+        self.logic = ""
 
 components = []
 
@@ -57,6 +57,11 @@ for net in nlst.nets:
 #
 output_file = open("/home/john/Private/es/programming/mcp/CinnamonBun/Firmware/CAN_Node.X/src/application/Controller/network.h","w")
 
+# Forward declaration of the logic Functions
+for component in components:
+    if component.node_type == 'bool_output_431':
+        output_file.write('int16_t {}_logic(void);\n'.format(component.ref))
+
 for component in components:
     if len(component.effected_nodes) > 0:
         output_file.write('uint16_t {}_effected[{}] = '.format(component.ref, len(component.effected_nodes)))
@@ -88,9 +93,21 @@ for component in components:
     else:
         output_file.write('\t\t.effected = NULL,\n')
         
-    output_file.write('\t\t.logic = NULL,\n')
+    if component.node_type == 'bool_output_431':
+        output_file.write('\t\t.logic = {}_logic,\n'.format(component.ref))
+    else:
+        output_file.write('\t\t.logic = NULL,\n')
 
     output_file.write('\t},\n')
 output_file.write('};\n')
 
+# Declaration of the logic Functions
+for component in components:
+    if component.node_type == 'bool_output_431':
+        output_file.write('int16_t {}_logic(void)\n'.format(component.ref))
+        output_file.write('{\n')
+        output_file.write('\treturn (')
+        output_file.write('nnodes[{}].address.es_bool.bitfield.es_bool'.format(0))
+        output_file.write(');\n')
+        output_file.write('}\n')
 
